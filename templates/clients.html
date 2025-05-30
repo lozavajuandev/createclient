@@ -2,11 +2,19 @@
   {% for client in clients %}
   <li>
     {{client.document}}-{{client.first_name}} {{client.last_name}}
-    <a href="{{url_for('clients.edit_client',document=client.document) }}">Editar</a>
-    <form action="{{url_for('clients.delete_client',document=client.document) }}" method="POST">
-        <button type="submit">Eliminar cliente</button>
+    <a href="{{url_for('clients.edit_client',document=client.document) }}"
+      >Editar</a
+    >
+    <form
+      action="{{url_for('clients.delete_client',document=client.document) }}"
+      method="POST"
+    >
+      <button type="submit">Eliminar cliente</button>
     </form>
   </li>
   {% endfor %}
 </ul>
 <a href="{{ url_for('clients.form') }}">Agregar nuevo cliente</a>
+<form action="{{url_for('auth.logout')}}">
+  <button type="submit">Cerrar sesión</button>
+</form>

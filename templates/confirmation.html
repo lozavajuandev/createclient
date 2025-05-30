@@ -3,4 +3,8 @@
 <p>Nombre: {{ client.first_name }}</p>
 <p>detalles: {{ client }}</p>
 <button><a href="{{url_for('clients.form')}}">Crear nuevo cliente</a></button>
-<button><a href="{{url_for('clients.create_client')}}"></a>Lista de clientes</button>
+<form method="GET" action="{{url_for('clients.create_client')}}">
+  <button type="submit">
+    Lista de clientes
+  </button>
+</form>

@@ -8,3 +8,8 @@ class Config:
     
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{DB_PATH}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = "scretpass"
+    JWT_SECTRET_KEY = "scretpass"
+    JWT_TOKEN_LOCATION = ['cookies']
+    
+    

@@ -1,8 +1,18 @@
+{% with messages = get_flashed_messages(with_categories=True)%} {%if messages%}
+<ul>
+  {% for category, message in messages%}
+  <li class="{{category}}">{{message}}</li>
+  {%endfor%}
+</ul>
+{%endif%} 
+{%endwith%}
 <form method="POST">
-  <label for=""> Username
+  <label for="">
+    Username
     <input type="text" name="username" id="" />
   </label>
-  <label for="Password"> Contraseña
+  <label for="Password">
+    Contraseña
     <input type="password" name="password" id="" />
   </label>
   <button type="submit">Registrarse</button>

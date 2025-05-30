@@ -1,11 +1,25 @@
-from flask import jsonify, redirect, render_template, request, url_for, Blueprint
+from flask import (
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+    Blueprint,
+    session,
+    flash,
+)
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from models import Client, db
 
-clients_bp= Blueprint('clients',__name__)
+clients_bp = Blueprint("clients", __name__)
+
 
 @clients_bp.route("/api/formulario", methods=["GET", "POST"])
+@jwt_required()
 def form():
     if request.method == "GET":
+        user = get_jwt_identity()
+        print(user)
         return render_template("clientForm.html")
     elif request.method == "POST":
         return create_client()
@@ -13,27 +27,35 @@ def form():
 
 @clients_bp.route("/api/clients", methods=["POST", "GET"])
 def create_client():
-    if request.method == "GET":
-        clients = Client.query.all()
-        return render_template("clients.html", clients=clients)
-    elif request.method == "POST":
-        new_client_db = Client(
-            document=request.form.get("document"),
-            document_type=request.form.get("document_type"),
-            first_name=request.form.get("client_name"),
-            last_name=request.form.get("client_lastname"),
-            email=request.form.get("email"),
-            phone=request.form.get("phone"),
-            address=request.form.get("address"),
+    if "user" not in session:
+        flash("Inicia sesion para poder ver el contenido", "error")
+        return redirect(url_for("auth.login"))
+    else:
+        if request.method == "GET":
+            clients = Client.query.all()
+            return render_template("clients.html", clients=clients)
+        elif request.method == "POST":
+            new_client_db = Client(
+                document=request.form.get("document"),
+                document_type=request.form.get("document_type"),
+                first_name=request.form.get("client_name"),
+                last_name=request.form.get("client_lastname"),
+                email=request.form.get("email"),
+                phone=request.form.get("phone"),
+                address=request.form.get("address"),
+            )
+        # Check if the document already exists
+        existing_client = Client.query.filter_by(
+            document=new_client_db.document
+        ).first()
+        if existing_client:
+            return jsonify(error="Client with this document already exists"), 400
+        db.session.add(new_client_db)
+        db.session.commit()
+        print(new_client_db)
+        return redirect(
+            url_for("clients.confirmation", new_client=new_client_db.document)
         )
-    # Check if the document already exists
-    existing_client = Client.query.filter_by(document=new_client_db.document).first()
-    if existing_client:
-        return jsonify(error="Client with this document already exists"), 400
-    db.session.add(new_client_db)
-    db.session.commit()
-    print(new_client_db)
-    return redirect(url_for("clients.confirmation", new_client=new_client_db.document))
 
 
 @clients_bp.route("/api/confirmation", methods=["GET"])

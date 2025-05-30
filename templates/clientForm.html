@@ -1,0 +1,39 @@
+<div style="display:grid; justify-content: center; align-items: center; height: 100vh; background-color: #f8f9fa;">
+    <h1 style="font-family:Helvetica;">Crear un nuevo cliente en la base de datos</h1>
+        <form method="POST" action="/api/formulario" style="font-family:Helvetica">
+            <div class="form-group">
+                <label for="documento">Numero de documento:</label>
+                <input type="text" class="form-control" id="name" name="document" required>
+            </div>
+            <div>
+                <label for="">Tipo de documento</label>
+                <select name="document_type" id="">
+                    <option value="CC">Cedula de ciudadania</option>
+                    <option value="NIT">NIT</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="name">Nombres:</label>
+                <input type="text" class="form-control" id="name" name="client_name"  required>
+            </div>
+            <div class="form-group">
+                <label for="name">Apellidos:</label>
+                <input type="text" class="form-control" id="name" name="client_lastname" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo eléctronico:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Celular:</label>
+                <input type="tel" class="form-control" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+                <label for="phone">Dirección:</label>
+                <input type="adress" class="form-control" id="phone" name="adress">
+            </div>
+            <button type="submit" class="btn btn-primary">Create Client</button>
+        </form>
+</div>

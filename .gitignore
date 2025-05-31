@@ -1,4 +1,5 @@
-venv
+.venv
 *.sqlite
 ___pycache___
 *.pyc
+.env

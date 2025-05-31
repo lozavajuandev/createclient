@@ -11,5 +11,6 @@ class Config:
     SECRET_KEY = "scretpass"
     JWT_SECTRET_KEY = "scretpass"
     JWT_TOKEN_LOCATION = ['cookies']
+    JWT_COOKIE_CSRF_PROTECT = False
     
     

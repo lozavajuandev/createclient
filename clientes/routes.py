@@ -31,16 +31,18 @@ def form():
 @clients_bp.route("/api/clients", methods=["POST", "GET"])
 @jwt_required()
 def create_client():
-    user = get_jwt_identity()
-    print(user)
+    get_jwt_identity()
     if "user" not in session:
         flash("Inicia sesion para poder ver el contenido", "error")
         return redirect(url_for("auth.login"))
     else:
+        
         if request.method == "GET":
+            
             clients = Client.query.all()
             return render_template("clients.html", clients=clients)
         elif request.method == "POST":
+            
             new_client_db = Client(
                 document=request.form.get("document"),
                 document_type=request.form.get("document_type"),

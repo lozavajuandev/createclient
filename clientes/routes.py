@@ -17,16 +17,22 @@ clients_bp = Blueprint("clients", __name__)
 @clients_bp.route("/api/formulario", methods=["GET", "POST"])
 @jwt_required()
 def form():
+    user = get_jwt_identity()
+    print(user)
     if request.method == "GET":
         user = get_jwt_identity()
         print(user)
         return render_template("clientForm.html")
     elif request.method == "POST":
+        
         return create_client()
 
 
 @clients_bp.route("/api/clients", methods=["POST", "GET"])
+@jwt_required()
 def create_client():
+    user = get_jwt_identity()
+    print(user)
     if "user" not in session:
         flash("Inicia sesion para poder ver el contenido", "error")
         return redirect(url_for("auth.login"))

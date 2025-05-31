@@ -1,6 +1,5 @@
 from flask import (
     redirect,
-    jsonify,
     render_template,
     request,
     url_for,
@@ -15,6 +14,7 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity,
     set_access_cookies,
+    unset_access_cookies,
 )
 
 
@@ -32,7 +32,7 @@ def create_user():
         db.session.add(new_user)
         db.session.commit()
         print(new_user)
-        return redirect(url_for("auth.get_users"))
+        return redirect(url_for("auth.login"))
 
 
 @auth_bp.route("/api/login", methods=["GET", "POST"])
@@ -58,6 +58,8 @@ def login():
 
 @auth_bp.route("/api/logout")
 def logout():
+    access_token = request.cookies.get('access_token_cookie') 
+    print(access_token)
     session.pop("user", None)
     flash("te has deslogueado correctametne", "success")
     return redirect(url_for("auth.login"))
